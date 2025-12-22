@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+    <script type='module' src='index.js'></script>
+    <link href='index.css' rel='stylesheet'/>
+    <title>CountryMan &#9787;</title>
+  </head>
+  <body>
+    <div id='mainContainer'>
+      <canvas id='game'></canvas>
+      <div id='game-StartMenu'>
+        <div id="game-StartMenuOptions">
+          <button id="game-StartMenuOptions-Start" class="game-StartMenuOptions">Start Game</button>
+          <button id="game-StartMenuOptions-Settings" class="game-StartMenuOptions">Configure Settings</button>
+        </div>
+        <div id="game-StartMenuSettings">
+          <div id="game-StartMenuSettings-Volume" class="game-StartMenuSettings-Range">
+            <p id="game-StartMenuSettings-VolumeText">Volume</p>
+            <input id="game-StartMenuSettings-VolumeRange" type="range" min="0" max="100" value="100">
+            <button id="game-StartMenuSettings-ResetVolume" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+          <div id="game-StartMenuSettings-Saturation" class="game-StartMenuSettings-Range">
+            <p id="game-StartMenuSettings-SaturationText">Saturation</p>
+            <input id="game-StartMenuSettings-SaturationRange" type="range" min="0" max="300" value="100" step="10">
+            <button id="game-StartMenuSettings-ResetSaturation" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+          <div id="game-StartMenuSettings-Brightness" class="game-StartMenuSettings-Range">
+            <p id="game-StartMenuSettings-BrightnessText">Brightness</p>
+            <input id="game-StartMenuSettings-BrightnessRange" type="range" min="30" max="200" value="100" step="10">
+            <button id="game-StartMenuSettings-ResetBrightness" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+          <div id="game-StartMenuSettings-Contrast" class="game-StartMenuSettings-Range">
+            <p id="game-StartMenuSettings-ContrastText">Contrast</p>
+            <input id="game-StartMenuSettings-ContrastRange" type="range" min="50" max="300" value="100" step="10">
+            <button id="game-StartMenuSettings-ResetContrast" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+          <div id="game-StartMenuSettings-HueRotate" class="game-StartMenuSettings-Range">
+            <p id="game-StartMenuSettings-HueRotateText">Hue Rotate</p>
+            <input id="game-StartMenuSettings-HueRotateRange" type="range" min="0" max="360" value="0" step="5">
+            <button id="game-StartMenuSettings-ResetHueRotate" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+          <div id="game-StartMenuSettings-Sepia" class="game-StartMenuSettings-Range">
+            <p id="game-StartMenuSettings-SepiaText">Sepia</p>
+            <input id="game-StartMenuSettings-SepiaRange" type="range" min="0" max="100" value="0" step="5">
+            <button id="game-StartMenuSettings-ResetSepia" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+          <div id="game-StartMenuSettings-Invert" class="game-StartMenuSettings-Checkbox">
+            <p id="game-StartMenuSettings-InvertText">Invert Visuals</p>
+            <input id="game-StartMenuSettings-InvertCheckbox" type="checkbox">
+            <button id="game-StartMenuSettings-ResetInvert" class="game-StartMenuSettings-ResetButton">Reset</button>
+          </div>
+        </div>
+        <button id="game-StartMenuReturn">Go Back</button>
+      </div>
+    </div>
+  </body>
+</html>
