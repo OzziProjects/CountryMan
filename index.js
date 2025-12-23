@@ -4,7 +4,7 @@ import { PlayerEntity } from "./Classes/player.js";
 import { runGameplay, keyTracker, mapVisuals, mapBoundaryStates } from "./Screens/gameplay.js";
 import { worldBundleBoundaries } from "./WorldBundleBoundaries/allWorldBundles.js";
 
-const mainContainer = document.getElementById("mainContainer");
+// const mainContainer = document.getElementById("mainContainer");
 const canvas = document.getElementById('game');
 const startMenuElement = document.getElementById("game-StartMenu");
 const ctx = canvas.getContext('2d');

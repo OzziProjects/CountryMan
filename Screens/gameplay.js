@@ -3,6 +3,7 @@
 import { SpecialTileEntity } from "../Classes/specialTile.js";
 import { gridBoxAspectRatio, canvasEntities, worldData, playerUIData, currentMainScreen } from "../index.js";
 import { worldBundleBoundaries } from "../WorldBundleBoundaries/allWorldBundles.js";
+import { allMapUrls } from "../mapsList.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -12,7 +13,7 @@ export const keyTracker = {
     "w": false, "s": false, "a": false, "d": false
 };
 
-const numOfMaps = 2;
+const numOfMaps = 3;
 export const mapVisuals = [];
 export const mapBoundaryStates = [];
 let mapVisualsLoaded = false;
@@ -37,10 +38,6 @@ displayImgOnCanvas();
 
 let getDataLoaded = false;
 async function getData() {
-    const map1 = "JSON/Map/Map1.json";
-    const map2 = "JSON/Map/Map2.json";
-    const map3 = "JSON/Map/Map3.json";
-    const allMapUrls = [map1, map2, map3];
     try {
         for (let i = 0; i < allMapUrls.length; i++) {
             const response = await fetch(allMapUrls[i]);
@@ -61,7 +58,7 @@ async function getData() {
 }
 
 const specialTilesTimers = {
-    water: new SpecialTileEntity({image: movingWater1Img, type: "Water", totalFrames: 5, totalFramesPerFrame: 25}),
+    water: new SpecialTileEntity({image: movingWater1Img, type: "Water", totalFrames: 5, totalFramesPerFrame: 40}),
 }
 
 // Camera Data
@@ -344,7 +341,7 @@ function createSpecialTileTimers() {
 function createMaps() {
     tilesPlacer(worldData.maps[0]);
     tilesPlacer(worldData.maps[1]);
-    // tilesPlacer(worldData.maps[2]);
+    tilesPlacer(worldData.maps[2]);
 }
 
 function runGameEntities() {

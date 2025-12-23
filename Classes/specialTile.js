@@ -20,7 +20,6 @@ export class SpecialTileEntity {
         }
         else {
             if (this.currentFramePerFrame === this.totalFramesPerFrame) {
-                console.log(this.currentFrame, this.currentFramePerFrame);
                 this.currentFramePerFrame = 0;
                 this.currentFrame++;
                 this.currentFramePosition = this.currentFrame * gridBoxAspectRatio.width;

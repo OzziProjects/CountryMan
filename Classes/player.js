@@ -53,7 +53,6 @@ export class PlayerEntity {
         }
     }
     update() {
-        // Use this to keep track of how many buttons are true at once
         this.draw();
         this.updatePlayerCurrentMap(this);
         this.movement(this, false);
