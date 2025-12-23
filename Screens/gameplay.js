@@ -18,6 +18,7 @@ export const mapVisuals = [];
 export const mapBoundaryStates = [];
 let mapVisualsLoaded = false;
 let mapBoundaryStatesLoaded = false;
+let allMapLayersLoaded = false;
 
 function resetCanvas() {
   ctx.fillStyle = 'black';
@@ -58,7 +59,7 @@ async function getData() {
 }
 
 const specialTilesTimers = {
-    water: new SpecialTileEntity({image: movingWater1Img, type: "Water", totalFrames: 5, totalFramesPerFrame: 40}),
+    water: new SpecialTileEntity({image: movingWater1Img, type: "Water", totalFrames: 5, totalFramesPerFrame: 60}),
 }
 
 // Camera Data
@@ -240,30 +241,52 @@ export function findXAndYIndexOfTileSource(numOfTile) {
     const findYIndex = ((numOfTile - (numOfTile % tileRowLimit)) / tileRowLimit) * gridBoxAspectRatio.height;
     return {x: findXIndex, y: findYIndex, column: findXIndex / gridBoxAspectRatio.width, row: findYIndex / gridBoxAspectRatio.height};
 }
+export function findXAndYIndexOfTile(tileIndex, tilesWide) {
+    const findXIndex = ((tileIndex % tilesWide)) * gridBoxAspectRatio.width;
+    const findYIndex = ((tileIndex - (tileIndex % tilesWide)) / tilesWide) * gridBoxAspectRatio.height;
+    return {x: findXIndex, y: findYIndex, column: findXIndex / gridBoxAspectRatio.width, row: findYIndex / gridBoxAspectRatio.height};
+}
 
 const tileBoundarySides = [
     "outLeft", "outRight", "outUp", "outDown",
     "inLeft", "inRight", "inUp", "inDown"
 ];
-function addToMapVisual(mapIndex, tileSrcIndices) {
+function addToMapVisual(mapIndex, tileSrcIndices, tileIndex, mapNumber) {
     if (tileSrcIndices.row === 9) {
         switch (tileSrcIndices.column) {
             case 0:
-                mapVisuals[mapIndex].push("Water"); break;
+                if (mapNumber === 0) {
+                    mapVisuals[mapIndex].push("Water"); 
+                }
+                else {
+                    mapVisuals[mapIndex][tileIndex] = "Water";
+                }
+                break;
         }
         return;
     }
     else {
-        mapVisuals[mapIndex].push("Regular");
+        if (mapNumber === 0) {
+            mapVisuals[mapIndex].push("Regular"); 
+        }
+        else {
+            mapVisuals[mapIndex][tileIndex] = "Regular";
+        }
     }
 }
-function addMapBoundaryState(mapData, tileBoundaries) {
+function addMapBoundaryState(mapData, tileBoundaries, tileIndex, mapNumber) {
     let tileBoundaryStates = {};
 
     for (let i = 0; i < tileBoundarySides.length; i++) {
         tileBoundaryStates[tileBoundarySides[i]] = tileBoundaries[tileBoundarySides[i]];
     }
-    mapBoundaryStates[mapData.mapIndex].push(tileBoundaryStates);
+
+    if (mapNumber === 0) {
+        mapBoundaryStates[mapData.mapIndex].push(tileBoundaryStates);
+    }
+    else {
+        mapBoundaryStates[mapData.mapIndex][tileIndex] = tileBoundaryStates;
+    }
 }
 function tilesPlacer(mapData) {
     const boundaries = worldBundleBoundaries[mapData.worldTileset];
@@ -281,57 +304,64 @@ function tilesPlacer(mapData) {
     if (mapVisuals[mapData.mapIndex].length === tilesWide * tilesHigh) {mapVisualsLoaded = true;}
     if (mapBoundaryStates[mapData.mapIndex] === undefined) {mapBoundaryStates.push([]);}
     if (mapBoundaryStates[mapData.mapIndex].length === tilesWide * tilesHigh) {mapBoundaryStatesLoaded = true;}
-    
-    mapData.layers[0].tiles.forEach(tile => {
-        if (
-            ((canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tilePos.x <= canvas.width &&
-            (canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tilePos.x + mapData.tilewidth >= 0) &&
-            ((canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tilePos.y <= canvas.height &&
-            (canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tilePos.y + mapData.tileheight >= 0)
-        ) {
+
+    mapData.layers.forEach(layer => {
+        layer.tiles.forEach(tile => {
+            const tileIndices = findXAndYIndexOfTile(tile.index, tilesWide);
             const tileSrcIndices = findXAndYIndexOfTileSource(tile.tile);
-            if (!mapVisualsLoaded) {
-                addToMapVisual(mapData.mapIndex, tileSrcIndices);
-                addMapBoundaryState(mapData, boundaries[`row${tileSrcIndices.row}`][tileSrcIndices.column]);
-            }
-            if (tileSrcIndices.row === 9) {
-                if (tileSrcIndices.column === 0) {
-                    ctx.drawImage(
-                        movingWater1Img, specialTilesTimers.water.currentFramePosition, 0,
-                        mapData.tilewidth, mapData.tileheight, 
-                        (canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tilePos.x, 
-                        (canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tilePos.y, 
-                        mapData.tilewidth, mapData.tileheight
-                    );
+            if (
+                ((canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tileIndices.x <= canvas.width &&
+                (canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tileIndices.x + mapData.tilewidth >= 0) &&
+                ((canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tileIndices.y <= canvas.height &&
+                (canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tileIndices.y + mapData.tileheight >= 0)
+            ) {
+                if (!mapVisualsLoaded) {
+                    addToMapVisual(mapData.mapIndex, tileSrcIndices, tile.index, layer.number);
+                    addMapBoundaryState(mapData, boundaries[`row${tileSrcIndices.row}`][tileSrcIndices.column], tile.index, layer.number);
+                }
+                if (tileSrcIndices.row === 9) {
+                    if (tileSrcIndices.column === 0) {
+                        ctx.drawImage(
+                            movingWater1Img, specialTilesTimers.water.currentFramePosition, 0,
+                            mapData.tilewidth, mapData.tileheight,
+                            (canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tileIndices.x, 
+                            (canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tileIndices.y, 
+                            mapData.tilewidth, mapData.tileheight
+                        );
+                    }
+                }
+                else {
+                        ctx.drawImage(
+                            worldBundle1Img, tileSrcIndices.x, tileSrcIndices.y, 
+                            mapData.tilewidth, mapData.tileheight, 
+                            (canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tileIndices.x, 
+                            (canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tileIndices.y, 
+                            mapData.tilewidth, mapData.tileheight
+                        );
                 }
             }
             else {
-                    ctx.drawImage(
-                        worldBundle1Img, tileSrcIndices.x, tileSrcIndices.y, 
-                        mapData.tilewidth, mapData.tileheight, 
-                        (canvasEntities.player.screenPosition.x + (mapData.position.x - canvasEntities.player.position.x)) + tilePos.x, 
-                        (canvasEntities.player.screenPosition.y + (mapData.position.y - canvasEntities.player.position.y)) + tilePos.y, 
-                        mapData.tilewidth, mapData.tileheight
-                    );
+                if (!mapBoundaryStatesLoaded && !mapVisualsLoaded) {
+                    addToMapVisual(mapData.mapIndex, tileSrcIndices, tile.index, layer.number);
+                    addMapBoundaryState(mapData, boundaries[`row${tileSrcIndices.row}`][tileSrcIndices.column], tile.index, layer.number);
+                }
             }
-        }
-        else {
-            const tileSrcIndices = findXAndYIndexOfTileSource(tile.tile);
-            if (!mapBoundaryStatesLoaded && !mapVisualsLoaded) {
-                addToMapVisual(mapData.mapIndex, tileSrcIndices);
-                addMapBoundaryState(mapData, boundaries[`row${tileSrcIndices.row}`][tileSrcIndices.column]);
+
+            totalTiles++;
+
+            tilePos.x += gridBoxAspectRatio.width;
+            if (tile.x === mapData.tileswide - 1) {
+                rowOfTiles++;
+                tilePos.y += gridBoxAspectRatio.height;
+                tilePos.x = 0;
             }
-        }
-
-        totalTiles++;
-
-        tilePos.x += gridBoxAspectRatio.width;
-        if (tile.x === mapData.tileswide - 1) {
-            rowOfTiles++;
-            tilePos.y += gridBoxAspectRatio.height;
-            tilePos.x = 0;
-        }
+        });
+        Object.assign(tilePos, {x: 0, y: 0});
+        rowOfTiles = 0;
+        totalTiles = 0;
     });
+
+    if (mapVisualsLoaded && mapBoundaryStatesLoaded) {allMapLayersLoaded = true;}
 }
 
 function createSpecialTileTimers() {

@@ -21,11 +21,29 @@ export const worldBundle1Boundaries = {
         allBoundaryStates(false), allBoundaryStates(false),
     ],
     "row5": [
-        allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false),
-        allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false),
-        allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false),
-        allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false), allBoundaryStates(false),
-        allBoundaryStates(false), allBoundaryStates(false),
+        allBoundaryStates(false),
+        allBoundaryStates(false, false, false, false, true, true, false, false),
+        allBoundaryStates(false),
+
+        allBoundaryStates(false),
+        allBoundaryStates(false, false, false, false, false, false, true, true),
+        allBoundaryStates(false),
+
+        allBoundaryStates(false),
+        allBoundaryStates(false, false, false, false, true, true, false, false),
+        allBoundaryStates(false),
+
+        allBoundaryStates(false),
+        allBoundaryStates(false, false, false, false, false, false, true, true),
+        allBoundaryStates(false),
+
+        allBoundaryStates(false),
+        allBoundaryStates(false, false, false, false, true, true, false, false),
+        allBoundaryStates(false), 
+        
+        allBoundaryStates(false),
+        allBoundaryStates(false, false, false, false, false, false, true, true),
+        allBoundaryStates(false),
     ],
     "row6": [
         specificBoundaryStates(false, true, false, false, true, false, false, false),

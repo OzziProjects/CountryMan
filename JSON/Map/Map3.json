@@ -25610,6 +25610,60 @@
                     "flipX": false
                 }
             ]
+        },
+        {
+            "name": "Layer 1",
+            "tiles": [
+                {
+                "x": 44,
+                "tile": 112,
+                "rot": 0,
+                "index": 2284,
+                "flipX": false,
+                "y": 28
+                },
+                {
+                "x": 44,
+                "tile": 113,
+                "rot": 0,
+                "index": 2364,
+                "flipX": false,
+                "y": 29
+                },
+                {
+                "x": 44,
+                "tile": 113,
+                "rot": 0,
+                "index": 2444,
+                "flipX": false,
+                "y": 30
+                },
+                {
+                "x": 44,
+                "tile": 113,
+                "rot": 0,
+                "index": 2524,
+                "flipX": false,
+                "y": 31
+                },
+                {
+                "x": 44,
+                "tile": 113,
+                "rot": 0,
+                "index": 2604,
+                "flipX": false,
+                "y": 32
+                },
+                {
+                "x": 44,
+                "tile": 114,
+                "rot": 0,
+                "index": 2684,
+                "flipX": false,
+                "y": 33
+                }
+            ],
+            "number": 1
         }
     ],
     "tileswide": 80,
