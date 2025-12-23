@@ -31,8 +31,8 @@ function displayImgOnCanvas() {
     worldBundle1Img.addEventListener("load", () => {
         getData();
     });
-    worldBundle1Img.src = "Images/Tiles/WorldBundle1.png";
-    movingWater1Img.src = "Images/Tiles/SpecialTiles/MovingWater1.png";
+    worldBundle1Img.src = "Images/Tiles/worldBundle1.png";
+    movingWater1Img.src = "Images/Tiles/SpecialTiles/movingWater1.png";
 }
 displayImgOnCanvas();
 
