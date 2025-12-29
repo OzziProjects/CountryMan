@@ -17,7 +17,7 @@ export class PlayerEntity {
             x: (canvas.width / 2) - (this.width / 2), 
             y: (canvas.height / 2) - (this.height / 2)
         };
-        this.origPosition = {x: 672, y: 224};
+        this.origPosition = {x: 128, y: 224};
         this.position = {x: this.origPosition.x, y: this.origPosition.y};
         this.cameraMoveTracker = {x: 0, y: 0};
 

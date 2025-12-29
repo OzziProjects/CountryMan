@@ -13,7 +13,7 @@ export const keyTracker = {
     "w": false, "s": false, "a": false, "d": false
 };
 
-const numOfMaps = 3;
+const numOfMaps = 1;
 export const mapVisuals = [];
 export const mapBoundaryStates = [];
 let mapVisualsLoaded = false;
@@ -319,7 +319,7 @@ function tilesPlacer(mapData) {
                     addToMapVisual(mapData.mapIndex, tileSrcIndices, tile.index, layer.number);
                     addMapBoundaryState(mapData, boundaries[`row${tileSrcIndices.row}`][tileSrcIndices.column], tile.index, layer.number);
                 }
-                if (tileSrcIndices.row === 9) {
+                if (tileSrcIndices.row === 15) {
                     if (tileSrcIndices.column === 0) {
                         ctx.drawImage(
                             movingWater1Img, specialTilesTimers.water.currentFramePosition, 0,
@@ -370,8 +370,8 @@ function createSpecialTileTimers() {
 
 function createMaps() {
     tilesPlacer(worldData.maps[0]);
-    tilesPlacer(worldData.maps[1]);
-    tilesPlacer(worldData.maps[2]);
+    // tilesPlacer(worldData.maps[1]);
+    // tilesPlacer(worldData.maps[2]);
 }
 
 function runGameEntities() {
